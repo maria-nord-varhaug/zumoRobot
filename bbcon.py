@@ -3,11 +3,11 @@ class Bbcon():
     #For nå - kun tomme metoder
 
     def __init__(self):
-        self.behaviors = []
-        self.active_behaviors = []
-        self.sensobs = []
-        self.motobs = []
-        self.arbitrator = None
+        self.behaviors = []         # liste med behavior-objekter eks. [avoid collision, follow other robot, etc...]
+        self.active_behaviors = []  # liste med aktive behavior-objekter
+        self.sensobs = []           # liste med sensorobjekter
+        self.motobs = []            # liste med motorobjekter
+        self.arbitrator = None      # peker til arbitratoren?
 
     def add_behavior(self, behavior):
         pass
