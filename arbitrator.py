@@ -18,9 +18,9 @@ class Arbitrator():
         return behavior                                                     # returnerer behavior
 
     def choose_action(self):
-        best_behavior = self.find_optimal_behavior()
-        motor_rec = best_behavior.motor_recommendations     # motor_recommentaions er en liste med forslag, ett for hvert motor objekt
-
+        winning_behavior = self.find_optimal_behavior()
+        motor_rec = winning_behavior.motor_recommendations     # motor_recommentaions er en liste med forslag, ett for hvert motor objekt
+        return tuple([motor_rec, winning_behavior.halt_request])  # (('L',30),False)
 
 
 
