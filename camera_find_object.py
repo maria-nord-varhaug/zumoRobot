@@ -10,7 +10,7 @@ class FindObject():
         self.xmax = self.image.size[0]
         self.ymax = self.image.size[1]
         self.array = None
-        # self.image.show()
+
 
     def how_much_color(self, start, end, color,):
         total = (end-start) * self.ymax
