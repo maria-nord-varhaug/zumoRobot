@@ -15,10 +15,13 @@ class Arbitrator():
             if self.bbcon.active_behaviors[i].weigth >= largest_weight:     # sammenlign weights
                 behavior = self.bbcon.active_behaviors[i]                       # oppdater viktigste behavior
                 largest_weight = self.bbcon.active_behaviors[i].weight          # oppdater vekt
-        return behavior                                                      # returnerer behavior
+        return behavior                                                     # returnerer behavior
 
     def choose_action(self):
-        best_behavior, largest_weight = self.find_optimal_behavior()
-        motor_rec = best_behavior.motor_recommendations
+        winning_behavior = self.find_optimal_behavior()
+        motor_rec = winning_behavior.motor_recommendations     # motor_recommentaions er en liste med forslag, ett for hvert motor objekt
+        return tuple([motor_rec, winning_behavior.halt_request])  # (('L',30),False)
+
+
 
 
