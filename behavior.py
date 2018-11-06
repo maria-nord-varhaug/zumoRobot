@@ -48,8 +48,12 @@ class DontCrash(Behavior):
 
     def sense_and_act(self):
         if self.active_flag == True:
+            #map
             dist = self.sensob.get_value() #get_value() method from Ultrasonic class returns distance in cm
-            if dist <= 5:
+            self.match_degree = 1-(dist)
+            if dist <= 20:
+                self.match_degree = 0
+                self.motor_recommendations = ('F',)
                 self.motor_recommendations = ('R', 180) #??? snu 180 grade rundt
                 self.match_degree = 1000
             else:
@@ -68,30 +72,28 @@ class FollowLine(Behavior, Reflectance_sensors):
     def sense_and_act(self):
         if self.active_flag == True:
             reflekt = self.sensob.get_value()
-            degrees = {0:32, 1:16, 2:0, 3:0, 4:16, 5:32}
-            grader = 0
+            degrees = {0:20, 1:7, 2:0, 3:0, 4:7, 5:20}
             maxval = 0  # maximum value
-            index = 2  # index of maxval
-            for i in reflekt:
-                reflekt[i] = 1-reflekt[i]
-                grader += (degrees[i]*reflekt[i])
-                if i != 2 and i != 3 and reflekt[i] > maxval:
+            index = 0  # index of maxval
+            for i in range(len(reflekt)):  # find maxval and index of maxval in array
+                reflekt[i] = 1 - reflekt[i]
+                if reflekt[i] > maxval:
                     maxval = reflekt[i]
                     index = i
+            if maxval < 0.05:
+                return ('L, 45')
             direction = 'R' if index > 3 else 'L'
-
+            return (direction, degrees[index])
 
     def consider_activation(self):
-        self.active_flag = True
         self.bbcon.turn_on_reflectance()
         self.bbcon.turn_off_camera()
-
+        self.active_flag = True
 
     def consider_deactivation(self):
         self.bbcon.turn_off_reflectance()
+        self.bbcon.turn_on_camera()
         self.active_flag = False
-        #skru av refleks sensor
-
 
 
 class FindColoredObject(Behavior):
@@ -100,17 +102,30 @@ class FindColoredObject(Behavior):
         super(FindColoredObject, self).__init__(bbcon)
         self.sensob = findobject
         self.active_flag = False
+        self.array = None
+
+    def update(self):
+        self.array = self.sensob.update()
 
     def sense_and_act(self):
-        return self.sensob.recomendation
+        maxval = 0  # maximum value
+        index = 0  # index of maxval
+        for i in range(len(self.array)):  # find maxval and index of maxval in array
+            if self.array[i] > maxval:
+                maxval = self.array[i]
+                index = i
+        if maxval < threshold:
+            return ('L, 60')
+        direction = 'R' if index > 3 else 'L'
+        degree = {0: 32, 1: 16, 2: 8, 3: 0, 4: 0, 5: 8, 6: 16, 7: 32}
+        return (direction, degree[index])
 
     def consider_deactivation(self):
-
-        if self.sensob.get_value
-            self.active_flag = False
-            #skru av kamera
+        self.bbcon.turn_on_reflectance()
+        self.bbcon.turn_off_camera()
+        self.active_flag = True
 
     def consider_activation(self):
-         if
-            self.active_flag = True
-            #skru på Kamera
+        self.bbcon.turn_on_reflectance()
+        self.bbcon.turn_off_camera()
+        self.active_flag = True
