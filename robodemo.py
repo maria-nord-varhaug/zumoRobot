@@ -72,3 +72,8 @@ def shoot_panorama(camera,motors,shots=5):
         im = im.concat_horiz(IMR.Imager(image=camera.update()))
     return im
 
+
+def spin():  # attemts to spin around 360 degrees
+    ZumoButton().wait_for_press()
+    motors = Motors()
+    motors.set_value((-0.5, 0.5), 3)
