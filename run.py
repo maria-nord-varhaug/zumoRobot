@@ -1,11 +1,9 @@
 from arbitrator import Arbitrator
 from bbcon import Bbcon
-from behavior import Behavior, DontCrash, FollowLine, FindColoredObject
-from camera import Camera
+from behavior import DontCrash, FollowLine, FindColoredObject
 from motob import Motob
-from motors import Motors
 from reflectance_sensors import ReflectanceSensors
-from sensobs import Sensob, CameraSensob, UltrasonicSensob, ReflectanceSensob
+from sensobs import CameraSensob, UltrasonicSensob, ReflectanceSensob
 from ultrasonic import Ultrasonic
 from zumo_button import ZumoButton
 
@@ -19,7 +17,7 @@ def main():
 
     #sensorer og sensob
     ult_sensor = Ultrasonic()
-    ref_sensor = ReflectanceSensors()
+    ref_sensor = ReflectanceSensors(auto_calibrate=True)
     reflectance_sensob = ReflectanceSensob(ref_sensor)
     ultrasonic_sensob = UltrasonicSensob(ult_sensor)
     camera_sensob = CameraSensob(None)
@@ -33,7 +31,12 @@ def main():
     bbcon.add_behavior(follow_line)
     bbcon.add_behavior(find_object)
 
+    ZumoButton().wait_for_press()
+    while not bbcon.object_found:  # Kjører helt til vi finner objektet
+        bbcon.run_one_timestep()
 
+if __name__ == "__main__":
+    main()
 
 
 
