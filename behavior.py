@@ -77,7 +77,7 @@ class FollowLine(Behavior):
     def __init__(self, bbcon, reflectancesensob):
         super(FollowLine, self).__init__(bbcon)
         self.sensob = reflectancesensob
-        self.active_flag = True
+        self.active_flag = False
         self.reflectvalues = None
         self.weight = 0.5
 
