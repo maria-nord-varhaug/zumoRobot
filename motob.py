@@ -6,7 +6,7 @@ class Motob():
     # gjør om ('L',30) til motorinstruksjoner
     # instruksjoner for venstr og høyre hjul? range[-1,1]
 
-    def __init__(self, arbitrator):
+    def __init__(self):
         self.motor = Motors()           # Lager et Motorobjekt?
         self.value = ()                 # Nyligste motor_recommendation sendt hit, ('L',30)
         self.default_motorverdi = 0.5
@@ -28,7 +28,7 @@ class Motob():
             self.motor.set_value([-self.default_motorverdi, self.default_motorverdi], self.grader_til_duration(grader))
         elif instruks == 'R':
             self.motor.set_value([self.default_motorverdi, -self.default_motorverdi], self.grader_til_duration(grader))
-        else: # eneste andre kommano er forwards, og den vil bare... ja kjøre
+        else: # eneste andre kommando er forwards, og den vil bare... ja kjøre
             self.motor.set_value([self.default_motorverdi, self.default_motorverdi]) # dur = None gir at den først
                                                                                     # kjører litt frem, og så fortsetter
 
