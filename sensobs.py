@@ -14,6 +14,9 @@ class Sensob(ABC):
     def update(self):
         pass
 
+    def reset(self):
+        self.sensor.reset()
+
 
 class CameraSensob(Sensob):
     def __init__(self, sensor, color=0, filename='image.png'):
@@ -75,6 +78,9 @@ class CameraSensob(Sensob):
             else:
                 return (0, 0, 0)
         return self.map_image2(wta)
+
+    def reset(self):
+        self.camera.reset()
 
 
 class UltrasonicSensob(Sensob):
