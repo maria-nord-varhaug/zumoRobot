@@ -78,7 +78,7 @@ class FollowLine(Behavior):
         self.sense_and_act()
         self.weight = self.priority * self.match_degree
 
-    def sense_and_act(self):
+    def sense_and_act(self, threshold = 0.05):
         if self.active_flag == True:
             degrees = {0:20, 1:7, 2:0, 3:0, 4:7, 5:20}
             maxval = 0  # maximum value
@@ -88,10 +88,13 @@ class FollowLine(Behavior):
                 if self.reflectvalues[i] > maxval:
                     maxval = self.reflectvalues[i]
                     index = i
-            if maxval < 0.05:
+            if maxval < threshold:
                 self.motor_recommendations = ('L, 45')
-            direction = 'R' if index > 3 else 'L'
-            self.motor_recommendations = (direction, degrees[index])
+                self.match_degree = 0
+            else:
+                direction = 'R' if index > 3 else 'L'
+                self.motor_recommendations = (direction, degrees[index])
+                self.match_degree = 1
 
     def consider_activation(self):
         self.bbcon.turn_on_reflectance()
@@ -111,7 +114,7 @@ class FindColoredObject(Behavior):
         self.sensob = camerasensob
         self.active_flag = False
         self.array = None
-        self.weight = 1
+        self.weight = 0.8
 
     def update(self):
         self.array = self.sensob.update()
@@ -127,9 +130,12 @@ class FindColoredObject(Behavior):
                 index = i
         if maxval < threshold:
             self.motor_recommendations = ('L, 60')
-        direction = 'R' if index > 3 else 'L'
-        degree = {0: 32, 1: 16, 2: 8, 3: 0, 4: 0, 5: 8, 6: 16, 7: 32}
-        self.motor_recommendations = (direction, degree[index])
+            self.match_degree = 0
+        else:
+            direction = 'R' if index > 3 else 'L'
+            degree = {0: 32, 1: 16, 2: 8, 3: 0, 4: 0, 5: 8, 6: 16, 7: 32}
+            self.motor_recommendations = (direction, degree[index])
+            self.match_degree = 1
 
     def consider_deactivation(self):
         self.bbcon.turn_off_camera()
