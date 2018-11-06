@@ -6,10 +6,10 @@ from reflectance_sensors import ReflectanceSensors
 from sensobs import CameraSensob, UltrasonicSensob, ReflectanceSensob
 from ultrasonic import Ultrasonic
 from zumo_button import ZumoButton
+import RPi.GPIO as GPIO
 
 
 def main():
-
     motob = Motob()
     bbcon = Bbcon(motob)
     arbitrator = Arbitrator(bbcon)
@@ -17,7 +17,7 @@ def main():
 
     #sensorer og sensob
     ult_sensor = Ultrasonic()
-    ref_sensor = ReflectanceSensors(auto_calibrate=True)
+    ref_sensor = ReflectanceSensors(auto_calibrate=False)
     reflectance_sensob = ReflectanceSensob(ref_sensor)
     ultrasonic_sensob = UltrasonicSensob(ult_sensor)
     camera_sensob = CameraSensob(None, color=2)
@@ -30,10 +30,15 @@ def main():
     bbcon.add_behavior(dont_crash)
     bbcon.add_behavior(follow_line)
     bbcon.add_behavior(find_object)
+    try:
+        ZumoButton().wait_for_press()
+        while not bbcon.object_found:  # Kjører helt til vi finner objektet
+            bbcon.run_one_timestep()
+    except KeyboardInterrupt:
+        pass
+    finally:
+        GPIO.cleanup()
 
-    ZumoButton().wait_for_press()
-    while not bbcon.object_found:  # Kjører helt til vi finner objektet
-        bbcon.run_one_timestep()
 
 if __name__ == "__main__":
     main()

@@ -1,6 +1,4 @@
 from abc import abstractmethod
-import Ultrasonic
-import Reflectance_sensors
 
 
 class Behavior(): #abstract class

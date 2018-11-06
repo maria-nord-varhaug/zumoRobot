@@ -24,8 +24,8 @@ class CameraSensob(Sensob):
         self.color = color  # 0:red, 1:green, 2:blue
         self.image = None   # Image.open(filename)  # the image object
         self.match = 0  # from 0-1 how high color match
-        self.xmax = self.image.size[0]  # width of image
-        self.ymax = self.image.size[1]  # height of image
+        self.xmax = 0  # width of image
+        self.ymax = 0  # height of image
         self.array = None  # color distribution array
         self.camera = Camera()
         self.filename = filename
@@ -33,6 +33,8 @@ class CameraSensob(Sensob):
     def update(self):
         self.camera.update()
         self.image = Image.open(self.filename)
+        self.xmax = self.image.size[0]  # width of image
+        self.ymax = self.image.size[1]  # height of image
         self.image = self.keep_one_color(thresh=0.55)
         self.how_much_color_array()
         return self.array

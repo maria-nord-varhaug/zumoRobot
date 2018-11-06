@@ -2,7 +2,7 @@ from bbcon import Bbcon
 # tar imot motorforespørsler fra behaviour, og bestemmer hvilke som skal bli utført :)
 
 
-class Arbitrator:
+class Arbitrator():
 
     def __init__(self, bbcon):
         assert isinstance(bbcon, Bbcon)

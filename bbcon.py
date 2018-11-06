@@ -1,5 +1,4 @@
 from behavior import Behavior, DontCrash, FindColoredObject
-from arbitrator import Arbitrator
 from motob import Motob
 
 
@@ -15,7 +14,6 @@ class Bbcon():
         self.object_found = False
 
     def set_arbitrator(self, arbitrator):
-        assert isinstance(arbitrator, Arbitrator)
         self.arbitrator = arbitrator
 
     def add_behavior(self, behavior):  # add behavior to self.behaviors
