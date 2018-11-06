@@ -35,7 +35,7 @@ class Bbcon():
     def should_follow_line(self):
         return self.follow_line
 
-    def run_one_timestep(self):  # main, one
+    def run_one_timestep(self):  # main
         for behavior in self.behaviors:  # add behaviors that should be active to active behaviours
             behavior.consider_activation()
             if behavior.active_flag:
