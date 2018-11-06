@@ -33,13 +33,14 @@ class Behavior(): #abstract class
 
 class DontCrash(Behavior):
 
-    def __init__(self, bbcon, ultrasonic):
+    def __init__(self, bbcon, ultrasonicsensob):
         super(DontCrash, self).__init__(bbcon)
-        self.sensob = ultrasonic
+        self.sensob = ultrasonicsensob
         self.active_flag = True
+        self.dist = None
 
     def update(self):
-
+        self.dist = self.sensob.update()
 
     def consider_deactivation(self):
         pass
@@ -49,7 +50,7 @@ class DontCrash(Behavior):
 
     def sense_and_act(self):
         if self.active_flag == True:
-            dist = self.sensob.get_value() #get_value() method from Ultrasonic class returns distance in cm
+            self.update() #kaller update som kaller update i Ultrasonicsensob klassen som returnere distansen
             if dist > 20:
                 self.match_degree = 0
                 self.motor_recommendations = ('F',)
@@ -62,15 +63,19 @@ class DontCrash(Behavior):
             return self.motor_recommendations
 
 
-class FollowLine(Behavior, Reflectance_sensors):
+class FollowLine(Behavior):
 
-    def __init__(self, bbcon, reflectancesensor):
+    def __init__(self, bbcon, reflectancesensob):
         super(FollowLine, self).__init__(bbcon)
-        self.sensob = reflectancesensor
+        self.sensob = reflectancesensob
         self.active_flag = True
-        self.reflekt = self.
+        self.reflectvalues = None
+
+    def update(self):
+        self.reflectvalues = self.sensob.update()
 
     def sense_and_act(self):
+        self.update()
         if self.active_flag == True:
             reflekt = self.sensob.get_value()
             degrees = {0:20, 1:7, 2:0, 3:0, 4:7, 5:20}
@@ -99,16 +104,17 @@ class FollowLine(Behavior, Reflectance_sensors):
 
 class FindColoredObject(Behavior):
     
-    def __init__(self, bbcon, findobject):
+    def __init__(self, bbcon, camerasensob):
         super(FindColoredObject, self).__init__(bbcon)
-        self.sensob = findobject
+        self.sensob = camerasensob
         self.active_flag = False
         self.array = None
 
     def update(self):
         self.array = self.sensob.update()
 
-    def sense_and_act(self):
+    def sense_and_act(self, threshold = 0.05):
+        self.update()
         maxval = 0  # maximum value
         index = 0  # index of maxval
         for i in range(len(self.array)):  # find maxval and index of maxval in array
@@ -122,11 +128,11 @@ class FindColoredObject(Behavior):
         return (direction, degree[index])
 
     def consider_deactivation(self):
-        self.bbcon.turn_on_reflectance()
         self.bbcon.turn_off_camera()
+        self.bbcon.turn_on_reflectance()
         self.active_flag = True
 
     def consider_activation(self):
-        self.bbcon.turn_on_reflectance()
-        self.bbcon.turn_off_camera()
-        self.active_flag = True
+        self.bbcon.turn_on_camera()
+        self.bbcon.turn_off_reflectance()
+        self.active_flag = False
