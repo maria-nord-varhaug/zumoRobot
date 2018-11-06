@@ -158,8 +158,7 @@ class FindColoredObject(Behavior):
 
     # Setter self.active_flag = False, kaller metoder i bbcon for å skru av/på kamera/refleksjonssensor
     def consider_deactivation(self):
-        self.bbcon.turn_off_camera()
-        self.bbcon.turn_on_reflectance()
+        if self.bbcon
         self.active_flag = True
 
     # Setter self.active_flag = True, kaller metoder i bbcon for å skru av/på kamera/refleksjonssensor
