@@ -6,28 +6,28 @@ import Reflectance_sensors
 class Behavior(): #abstract class
 
     def __init__(self, bbcon):
-        self.bbcon = bbcon
-        self.motor_recommendations = ('F', 0)  #En motob. EKSEMPEL:(L, 30), en tuple som inneholder en character som enten er 'L', 'R', 'evtuenlt en til?' og andre verdi er antall grader et int tall.
-        self.active_flag = False
-        self.halt_request = False #avslutte oppførelse totalt
-        self.match_degree = 0      #hvor viktig oppførselen er akkurat nå, regnes ut fra sensor info og regnes ut i Behavior.
-        self.weight = 0    #self.priority * self.match_degree #sendes til Arbitrator, som indikere hvor viktig det
-        # er å utføre denne oppførselen n ..
+        self.bbcon = bbcon                        #peker til bbcon objektet
+        self.motor_recommendations = ('F', )      #Inneholder senest oppdatert motor recommendations
+        self.active_flag = False                  #forteller om metoden er aktiv
+        self.halt_request = False                 #avslutte oppførelse totalt
+        self.match_degree = 0                     #hvor viktig oppførselen er akkurat nå, regnes ut i metoden fra sensor verdier
+        self.weight = 0                           #self.priority * self.match_degree #sendes til Arbitrator, som indikere hvor viktig metoden er totaltsett
+
 
     @abstractmethod
-    def consider_deactivation(self):
+    def consider_deactivation(self):      #Setter self.active_flag = False, kaller metoder i bbcon for å skru av/på kamera/refleksjonssensor
         pass
 
     @abstractmethod
-    def consider_activation(self):
+    def consider_activation(self):        #Setter self.active_flag = True, kaller metoder i bbcon for å skru av/på kamera/refleksjonssensor
         pass
 
     @abstractmethod
-    def update(self):
+    def update(self):                     #kaller sensobs update funksjon for å oppdatere verdier, kaller sense_and_act() og regner ut self.weight
         pass
 
     @abstractmethod
-    def sense_and_act(self): #skal legge inn motor recemendations, regne ut match_degree og sende halt_request
+    def sense_and_act(self):              #legger inn motor recommendations og gir self.match_degree en variabel
         pass
 
 
@@ -37,34 +37,40 @@ class DontCrash(Behavior):
         super(DontCrash, self).__init__(bbcon)
         self.sensob = ultrasonicsensob
         self.active_flag = True
-        self.dist = None
+        self.dist = None                     #distansen er i cm
         self.priority = 1
 
+    # kaller sensobs update funksjon for å oppdatere verdier, kaller sense_and_act() og regner ut self.weight
     def update(self):
-        self.dist = self.sensob.update()
+        self.dist = self.sensob.update()     #distansen er i cm
         self.sense_and_act()
         self.weight = self.priority * self.match_degree
 
+    #Setter self.active_flag = False, kaller metoder i bbcon for å skru av/på kamera/refleksjonssensor
     def consider_deactivation(self):
         pass
 
+    # Setter self.active_flag = True, kaller metoder i bbcon for å skru av/på kamera/refleksjonssensor
     def consider_activation(self):
         pass
 
+    # legger inn motor recommendations og gir self.match_degree en variabel
     def sense_and_act(self):
         if self.active_flag:
-            if self.dist > 20:
+            if self.dist > 20:                          #hvis distansen er større enn 20 cm er metdoen urelevant
                 self.match_degree = 0
                 self.motor_recommendations = ('F',)
-            elif self.dist <= 5:
+            elif self.dist <= 5:                        #metode veldig relevant
                 self.match_degree = 1
                 self.motor_recommendations = ('R', 180)
-            else:
+            else:                                       #metode middels relevant
                 self.match_degree = 1-((self.dist-5)/20)
                 self.motor_recommendations = ('R', 180)
 
+    # kaller sensobs reset metode
     def reset_sensob(self):
         self.sensob.reset()
+
 
 class FollowLine(Behavior):
 
@@ -75,11 +81,13 @@ class FollowLine(Behavior):
         self.reflectvalues = None
         self.weight = 0.5
 
+    # kaller sensobs update funksjon for å oppdatere verdier, kaller sense_and_act() og regner ut self.weight
     def update(self):
         self.reflectvalues = self.sensob.update()
         self.sense_and_act()
         self.weight = self.priority * self.match_degree
 
+    # legger inn motor recommendations og gir self.match_degree en variabel
     def sense_and_act(self, threshold = 0.05):
         if self.active_flag:
             degrees = {0:20, 1:7, 2:0, 3:0, 4:7, 5:20}
@@ -98,16 +106,19 @@ class FollowLine(Behavior):
                 self.motor_recommendations = (direction, degrees[index])
                 self.match_degree = 1
 
+    # Setter self.active_flag = True, kaller metoder i bbcon for å skru av/på kamera/refleksjonssensor
     def consider_activation(self):
         self.bbcon.turn_on_reflectance()
         self.bbcon.turn_off_camera()
         self.active_flag = True
 
+    # Setter self.active_flag = False, kaller metoder i bbcon for å skru av/på kamera/refleksjonssensor
     def consider_deactivation(self):
         self.bbcon.turn_off_reflectance()
         self.bbcon.turn_on_camera()
         self.active_flag = False
 
+    # kaller sensobs reset metode
     def reset_sensob(self):
         self.sensob.reset()
 
@@ -122,11 +133,13 @@ class FindColoredObject(Behavior):
         self.array = None
         self.weight = 0.8
 
+    # kaller sensobs update funksjon for å oppdatere verdier, kaller sense_and_act() og regner ut self.weight
     def update(self):
         self.array = self.sensob.update()
         self.sense_and_act()
         self.weight = self.priority * self.match_degree
 
+    # legger inn motor recommendations og gir self.match_degree en variabel
     def sense_and_act(self, threshold = 0.05):
         maxval = 0  # maximum value
         index = 0  # index of maxval
@@ -143,15 +156,18 @@ class FindColoredObject(Behavior):
             self.motor_recommendations = (direction, degree[index])
             self.match_degree = 1
 
+    # Setter self.active_flag = False, kaller metoder i bbcon for å skru av/på kamera/refleksjonssensor
     def consider_deactivation(self):
         self.bbcon.turn_off_camera()
         self.bbcon.turn_on_reflectance()
         self.active_flag = True
 
+    # Setter self.active_flag = True, kaller metoder i bbcon for å skru av/på kamera/refleksjonssensor
     def consider_activation(self):
         self.bbcon.turn_on_camera()
         self.bbcon.turn_off_reflectance()
         self.active_flag = False
 
+    # kaller sensobs reset metode
     def reset_sensob(self):
         self.sensob.reset()
