@@ -23,7 +23,6 @@ class Behavior(): #abstract class
         pass
 
     def update(self):
-        self.
         self.sense_and_act()
         self.weight = self.match_degree * self.priority
 
@@ -39,26 +38,27 @@ class DontCrash(Behavior):
         self.sensob = ultrasonic
         self.active_flag = True
 
+    def update(self):
+
+
     def consider_deactivation(self):
         pass
 
     def consider_activation(self):
         pass
 
-
     def sense_and_act(self):
         if self.active_flag == True:
-            #map
             dist = self.sensob.get_value() #get_value() method from Ultrasonic class returns distance in cm
-            self.match_degree = 1-(dist)
-            if dist <= 20:
+            if dist > 20:
                 self.match_degree = 0
                 self.motor_recommendations = ('F',)
-                self.motor_recommendations = ('R', 180) #??? snu 180 grade rundt
-                self.match_degree = 1000
+            elif dist <= 5:
+                self.match_degree = 1
+                self.motor_recommendations = ('R', 180)
             else:
-                self.match_degree = 0
-                self.motor_recommendations = ('F', )
+                self.match_degree = 1-((dist-5)/20)
+                self.motor_recommendations = ('R', 180)
             return self.motor_recommendations
 
 
@@ -68,6 +68,7 @@ class FollowLine(Behavior, Reflectance_sensors):
         super(FollowLine, self).__init__(bbcon)
         self.sensob = reflectancesensor
         self.active_flag = True
+        self.reflekt = self.
 
     def sense_and_act(self):
         if self.active_flag == True:
