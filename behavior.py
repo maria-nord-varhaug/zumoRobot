@@ -108,15 +108,13 @@ class FollowLine(Behavior):
 
     # Setter self.active_flag = True, kaller metoder i bbcon for å skru av/på kamera/refleksjonssensor
     def consider_activation(self):
-        self.bbcon.turn_on_reflectance()
-        self.bbcon.turn_off_camera()
-        self.active_flag = True
+        if self.bbcon.should_follow_line():
+            self.active_flag = True
 
     # Setter self.active_flag = False, kaller metoder i bbcon for å skru av/på kamera/refleksjonssensor
     def consider_deactivation(self):
-        self.bbcon.turn_off_reflectance()
-        self.bbcon.turn_on_camera()
-        self.active_flag = False
+        if not self.bbcon.should_follow_line():
+            self.active_flag = False
 
     # kaller sensobs reset metode
     def reset_sensob(self):
@@ -158,14 +156,13 @@ class FindColoredObject(Behavior):
 
     # Setter self.active_flag = False, kaller metoder i bbcon for å skru av/på kamera/refleksjonssensor
     def consider_deactivation(self):
-        if self.bbcon
-        self.active_flag = True
+        if not self.bbcon.should_camera_be_on():
+            self.active_flag = True
 
     # Setter self.active_flag = True, kaller metoder i bbcon for å skru av/på kamera/refleksjonssensor
     def consider_activation(self):
-        self.bbcon.turn_on_camera()
-        self.bbcon.turn_off_reflectance()
-        self.active_flag = False
+        if self.bbcon.should_camera_be_on():
+            self.active_flag = False
 
     # kaller sensobs reset metode
     def reset_sensob(self):
