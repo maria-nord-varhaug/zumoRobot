@@ -1,4 +1,4 @@
-from behavior import Behavior, DontCrash
+from behavior import Behavior, DontCrash, FindColoredObject
 from arbitrator import Arbitrator
 from motob import Motob
 
@@ -12,6 +12,7 @@ class Bbcon():
         self.motob = motob
         self.camera_on = False
         self.follow_line = True
+        self.object_found = False
 
     def set_arbitrator(self, arbitrator):
         assert isinstance(arbitrator, Arbitrator)
@@ -51,11 +52,13 @@ class Bbcon():
             behavior.update()
         action_tuple = self.arbitrator.choose_action() # (motor_rec, winning_behavior.halt_request, winning_behavior)
         self.motob.update(action_tuple[:2])
-        if isinstance(action_tuple[3], DontCrash):
+        if isinstance(action_tuple[2], DontCrash):
             self.camera_on = True
             self.follow_line = False
         else:
             self.camera_on = False
             self.follow_line = True
+        if isinstance(action_tuple[2], FindColoredObject) and action_tuple[0][1] == 0:
+            self.object_found = True
         for behavior in self.behaviors:
             behavior.reset()
