@@ -5,7 +5,7 @@ class Bbcon():
     def __init__(self):
         self.behaviors = []         # liste med behavior-objekter eks. [avoid collision, follow other robot, etc...]
         self.active_behaviors = []  # liste med aktive behavior-objekter
-        self.sensobs = []           # liste med sensorobjekter
+        self.s = []           # liste med sensorobjekter
         self.motobs = []            # liste med motorobjekter
         self.arbitrator = None      # peker til arbitratoren?
 

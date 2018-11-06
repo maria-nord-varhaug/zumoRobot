@@ -90,7 +90,10 @@ class Motors():
         # Set speed to the absolute value of the passed values
         self.set_left_speed(abs(left_val))
         self.set_right_speed(abs(right_val))
-        self.persist(dur)
+        if not dur is None:
+            self.persist(dur) # kjører litt frem
+        else:
+            sleep(0.2)
 
     # These are lower-level routines that translate speeds and directions into write commands to the motor output pins.
 

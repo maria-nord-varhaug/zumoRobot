@@ -45,7 +45,7 @@ def explorer(dist=10):
 
 
 
-def random_step(motors,speed=0.25,duration=1):
+def random_step(motors,speed=0.25,duration=1.0):
     dir = random.choice(['forward','backward','left','right'])
     eval('Motors.'+ dir)(motors,speed,duration)
 
@@ -76,4 +76,28 @@ def shoot_panorama(camera,motors,shots=5):
 def spin():  # attemts to spin around 360 degrees
     ZumoButton().wait_for_press()
     motors = Motors()
-    motors.set_value((-0.5, 0.5), 3)
+    motors.set_value((-0.5, 0.5), 1)
+
+def vsvingrask():
+    speed = 0.5
+    ZumoButton().wait_for_press()
+    motors = Motors()
+    motors.set_value((speed/2,speed/2),1)
+    motors.set_value((0.3,-0.3),1)
+    motors.set_value((speed/2, speed/2), 1)
+
+def vsvingsakte():
+    speed = 0.5
+    ZumoButton().wait_for_press()
+    motors = Motors()
+    motors.set_value((speed / 2, speed / 2), 1)
+    motors.set_value((speed, -speed), 0.1)
+    motors.set_value((speed / 2, speed / 2), 1)
+
+def sving(speed,dur):
+    ZumoButton().wait_for_press()
+    motors = Motors()
+    motors.set_value((speed / 2, speed / 2), 1)
+    motors.set_value((speed, -speed), dur)
+    motors.set_value((speed / 2, speed / 2), 1)
+
