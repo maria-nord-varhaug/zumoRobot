@@ -5,7 +5,8 @@ from bbcon import Bbcon
 class Arbitrator:
 
     def __init__(self, bbcon):
-        self.bbcon = bbcon # tar inn bbcon
+        assert isinstance(bbcon, Bbcon)
+        self.bbcon = bbcon  # tar inn bbcon
 
     def find_optimal_behavior(self):
         largest_weight = 0
