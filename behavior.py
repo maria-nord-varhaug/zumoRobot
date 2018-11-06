@@ -79,7 +79,7 @@ class FollowLine(Behavior):
         self.sensob = reflectancesensob
         self.active_flag = False
         self.reflectvalues = None
-        self.weight = 0.5
+        self.priority = 0.5
 
     # kaller sensobs update funksjon for å oppdatere verdier, kaller sense_and_act() og regner ut self.weight
     def update(self):
@@ -129,7 +129,7 @@ class FindColoredObject(Behavior):
         self.sensob = camerasensob
         self.active_flag = False
         self.array = None
-        self.weight = 0.8
+        self.priority = 0.8
 
     #kaller sensobs update funksjon for å oppdatere verdier, kaller sense_and_act() og regner ut self.weight
     def update(self):
