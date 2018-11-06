@@ -10,7 +10,7 @@ class Motob():
         self.motor = Motors()           # Lager et Motorobjekt?
         self.value = ()                 # Nyligste motor_recommendation sendt hit
         self.arbitrator = arbitrator    # trenger å peke på arbitrator for å oppdatere?
-        self.past_command = ''
+        self.past_command = ''          # litt spekulering
         self.default_fart = 0.125
 
     def update(self):
@@ -21,7 +21,7 @@ class Motob():
             return
         self.value = t[0]
 
-    def operationalize(self):  # si default fart er 0.125
+    def operationalize(self):  # set__value([l,r],duration)
         #if self.past_command != 'F':
             if self.value[0] == 'L':
                 self.motor.set_value([-self.default_fart, self.default_fart], self.value[1] / 10)
