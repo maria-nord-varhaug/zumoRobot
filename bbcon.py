@@ -9,6 +9,8 @@ class Bbcon():
         self.motobs = []            # liste med motorobjekter
         self.arbitrator = None      # peker til arbitratoren?
 
+
+
     def add_behavior(self, behavior):
         pass
 
@@ -23,3 +25,6 @@ class Bbcon():
 
     def run_one_timestep(self):
         pass
+
+
+
