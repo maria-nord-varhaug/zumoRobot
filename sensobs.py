@@ -1,19 +1,43 @@
+from abc import ABC, abstractmethod
+from reflectance_sensors import ReflectanceSensors
+from camera_find_object import FindObject
+from ultrasonic import Ultrasonic
 from camera import Camera
 from PIL import Image
-from zumo_button import ZumoButton
 
 
-class FindObject():  # DO NOT USE!
+class Sensob(ABC):
+    def __init__(self, sensor):
+        self.sensor = sensor
 
-    def __init__(self, color=0, filename='image.png'):
+    @abstractmethod
+    def update(self):
+        pass
+
+    def reset(self):
+        self.sensor.reset()
+
+
+class CameraSensob(Sensob):
+    def __init__(self, sensor, color=0, filename='image.png'):
+        assert isinstance(sensor, FindObject)
+        super(CameraSensob, self).__init__(sensor)
         self.color = color  # 0:red, 1:green, 2:blue
-        self.image = Image.open(filename)  # the image object
+        self.image = None   # Image.open(filename)  # the image object
         self.match = 0  # from 0-1 how high color match
         self.xmax = self.image.size[0]  # width of image
         self.ymax = self.image.size[1]  # height of image
         self.array = None  # color distribution array
-        self.zumo_button = ZumoButton()
         self.camera = Camera()
+        self.filename = filename
+
+    def update(self):
+        self.camera.update()
+        self.image = Image.open(self.filename)
+        self.image = self.keep_one_color(thresh=0.55)
+        self.how_much_color_array()
+        return self.array
+        # returns array eg [0.0, 0.0, 0.0, 0.05, 0.0, 0.24, 0.21, 0.0]
 
     def how_much_color(self, start, end):  # return a float [0-1] of how much of either R,G or B color
         total = (end - start) * self.ymax  # total number of pixels
@@ -55,33 +79,25 @@ class FindObject():  # DO NOT USE!
                 return (0, 0, 0)
         return self.map_image2(wta)
 
-    # move to behaviour?
-    def recomendation(self, threshold=0.05):  # motor recoomendation, maps self.array to degrees and left/right
-        maxval = 0  # maximum value
-        index = 0  # index of maxval
-        for i in range(len(self.array)):  # find maxval and index of maxval in array
-            if self.array[i] > maxval:
-                maxval = self.array[i]
-                index = i
-        if maxval < threshold:
-            return ('L, 60')
-        direction = 'R' if index > 3 else 'L'
-        degree = {0: 32, 1: 16, 2: 8, 3: 0, 4: 0, 5: 8, 6: 16, 7: 32}
-        return (direction, degree[index])
+    def reset(self):
+        self.camera.reset()
 
 
-# test method
-def take_picture():
-    cfo = FindObject(color=0, filename='image.png')
-    for i in range(10):
-        cfo.zumo_button.wait_for_press()
-        image = cfo.camera.update()
-        image.save('image{}.jpg'.format(i))
+class UltrasonicSensob(Sensob):
+    def __init__(self, sensor):
+        assert isinstance(sensor, Ultrasonic)
+        super(UltrasonicSensob, self).__init__(sensor)
 
-'''
-fo = FindObject(color=0, filename='image.png')
-fo.image = fo.keep_one_color(thresh=0.55)
-fo.how_much_color_array()
-print(fo.recomendation())
-fo.image.show()
-'''
+    def update(self):
+        return self.sensor.update()
+        # returns the distance to object in cm
+
+
+class ReflectanceSensob(Sensob):
+    def __init__(self, sensor):
+        assert isinstance(sensor, ReflectanceSensors)
+        super(ReflectanceSensob, self).__init__(sensor)
+
+    def update(self):
+        self.sensor.update()
+        # returns array eg [1.0, 1.0, 0.5, 0.3, 0.9, 0.7]
