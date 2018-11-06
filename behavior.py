@@ -92,7 +92,7 @@ class FollowLine(Behavior):
             maxval = 0  # maximum value
             index = 0  # index of maxval
             for i in range(len(self.reflectvalues)):  # find maxval and index of maxval in array
-                self.reflectvalues[i] = 1 - reflekt[i]
+                self.reflectvalues[i] = 1 - self.reflectvalues[i]
                 if self.reflectvalues[i] > maxval:
                     maxval = self.reflectvalues[i]
                     index = i
@@ -129,7 +129,7 @@ class FindColoredObject(Behavior):
         self.array = None
         self.weight = 0.8
 
-    # kaller sensobs update funksjon for å oppdatere verdier, kaller sense_and_act() og regner ut self.weight
+    #kaller sensobs update funksjon for å oppdatere verdier, kaller sense_and_act() og regner ut self.weight
     def update(self):
         self.array = self.sensob.update()
         self.sense_and_act()
@@ -137,20 +137,21 @@ class FindColoredObject(Behavior):
 
     # legger inn motor recommendations og gir self.match_degree en variabel
     def sense_and_act(self, threshold = 0.05):
-        maxval = 0  # maximum value
-        index = 0  # index of maxval
-        for i in range(len(self.array)):  # find maxval and index of maxval in array
-            if self.array[i] > maxval:
-                maxval = self.array[i]
-                index = i
-        if maxval < threshold:
-            self.motor_recommendations = ('L, 60')
-            self.match_degree = 0
-        else:
-            direction = 'R' if index > 3 else 'L'
-            degree = {0: 32, 1: 16, 2: 8, 3: 0, 4: 0, 5: 8, 6: 16, 7: 32}
-            self.motor_recommendations = (direction, degree[index])
-            self.match_degree = 1
+        if self.active_flag:
+            maxval = 0  # maximum value
+            index = 0  # index of maxval
+            for i in range(len(self.array)):  # find maxval and index of maxval in array
+                if self.array[i] > maxval:
+                    maxval = self.array[i]
+                    index = i
+            if maxval < threshold:
+                self.motor_recommendations = ('L, 60')
+                self.match_degree = 0
+            else:
+                direction = 'R' if index > 3 else 'L'
+                degree = {0: 32, 1: 16, 2: 8, 3: 0, 4: 0, 5: 8, 6: 16, 7: 32}
+                self.motor_recommendations = (direction, degree[index])
+                self.match_degree = 1
 
     # Setter self.active_flag = False, kaller metoder i bbcon for å skru av/på kamera/refleksjonssensor
     def consider_deactivation(self):
