@@ -15,7 +15,7 @@ class Behavior(): #abstract class
   # self.priority defineres i hver klasse og sier hvor viktig oppførselen generelt er
         self.match_degree = 0      #hvor viktig oppførselen er akkurat nå, regnes ut fra sensor info og regnes ut i Behavior.
         self.weight = 0    #self.priority * self.match.degree #sendes til Arbitrator, som indikere hvor viktig det
-        # er å utføre denne oppførselen n
+        # er å utføre denne oppførselen n ..
 
     @abstractmethod
     def consider_deactivation(self):
