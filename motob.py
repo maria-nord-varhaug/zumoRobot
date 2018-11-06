@@ -22,21 +22,21 @@ class Motob():
         self.value = t[0]
 
     def operationalize(self):  # si default fart er 0.125
-        if self.past_command != 'F':
+        #if self.past_command != 'F':
             if self.value[0] == 'L':
                 self.motor.set_value([-self.default_fart, self.default_fart], self.value[1] / 10)
             elif self.value[0] == 'R':
                 self.motor.set_value([self.default_fart, -self.default_fart], self.value[1] / 10)
             else:
                 self.motor.set_value([self.default_fart, self.default_fart], self.value[1]/10)
-        else:
-            if self.value[0] == 'L':
-                pass
-            elif self.value[0] == 'R':
-                pass
-            else:
-                pass
-        self.past_command = self.value[0]
+        #else:
+        #    if self.value[0] == 'L':
+        #        pass
+        #    elif self.value[0] == 'R':
+        #        pass
+        #    else:
+        #        pass
+        #self.past_command = self.value[0]
 
     # MED HJUL SOM ROTERER BEGGE VEIER hypotese
 
