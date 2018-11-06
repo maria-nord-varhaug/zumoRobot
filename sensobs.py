@@ -20,7 +20,6 @@ class Sensob(ABC):
 
 class CameraSensob(Sensob):
     def __init__(self, sensor, color=0, filename='image.png'):
-        assert isinstance(sensor, FindObject)
         super(CameraSensob, self).__init__(sensor)
         self.color = color  # 0:red, 1:green, 2:blue
         self.image = None   # Image.open(filename)  # the image object
