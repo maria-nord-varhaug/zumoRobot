@@ -4,15 +4,18 @@ from motob import Motob
 
 
 class Bbcon():
-    def __init__(self, arbitrator, motob):
+    def __init__(self, motob):
         self.behaviors = []         # liste med behavior-objekter eks. [avoid collision, follow other robot, etc...]
         self.active_behaviors = []  # liste med aktive behavior-objekter
         assert isinstance(motob, Motob)
-        assert isinstance(arbitrator, Arbitrator)
-        self.arbitrator = arbitrator
+        self.arbitrator = None
         self.motob = motob
         self.camera_on = False
         self.follow_line = True
+
+    def set_arbitrator(self, arbitrator):
+        assert isinstance(arbitrator, Arbitrator)
+        self.arbitrator = arbitrator
 
     def add_behavior(self, behavior):  # add behavior to self.behaviors
         assert isinstance(behavior, Behavior)
