@@ -52,7 +52,7 @@ class DontCrash(Behavior):
         pass
 
     def sense_and_act(self):
-        if self.active_flag == True:
+        if self.active_flag:
             if self.dist > 20:
                 self.match_degree = 0
                 self.motor_recommendations = ('F',)
@@ -63,6 +63,8 @@ class DontCrash(Behavior):
                 self.match_degree = 1-((self.dist-5)/20)
                 self.motor_recommendations = ('R', 180)
 
+    def reset_sensob(self):
+        self.sensob.reset()
 
 class FollowLine(Behavior):
 
@@ -79,7 +81,7 @@ class FollowLine(Behavior):
         self.weight = self.priority * self.match_degree
 
     def sense_and_act(self, threshold = 0.05):
-        if self.active_flag == True:
+        if self.active_flag:
             degrees = {0:20, 1:7, 2:0, 3:0, 4:7, 5:20}
             maxval = 0  # maximum value
             index = 0  # index of maxval
@@ -105,6 +107,10 @@ class FollowLine(Behavior):
         self.bbcon.turn_off_reflectance()
         self.bbcon.turn_on_camera()
         self.active_flag = False
+
+    def reset_sensob(self):
+        self.sensob.reset()
+
 
 
 class FindColoredObject(Behavior):
@@ -146,3 +152,6 @@ class FindColoredObject(Behavior):
         self.bbcon.turn_on_camera()
         self.bbcon.turn_off_reflectance()
         self.active_flag = False
+
+    def reset_sensob(self):
+        self.sensob.reset()
