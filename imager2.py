@@ -94,7 +94,6 @@ class Imager():
                 return (0,0,0)
         return self.map_image2(wta,image)
 
-
     # Note that grayscale uses the RGB triple to define shades of gray.
     def gen_grayscale(self,image=False): return self.scale_colors(image=image,degree=0)
 
