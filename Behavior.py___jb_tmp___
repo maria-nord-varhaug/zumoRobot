@@ -8,7 +8,7 @@ import Reflectance_sensors
 class Behavior(): #abstract class
 
     def __init__(self, bbcon):
-        self.bbcon = bbcon
+        self.bbcon = Bbcon()
         self.motor_recommendations = ('F', 0)  #En motob. EKSEMPEL:(L, 30), en tuple som inneholder en character som enten er 'L', 'R', 'evtuenlt en til?' og andre verdi er antall grader et int tall.
         self.active_flag = False
         self.halt_request = False #avslutte oppførelse totalt
@@ -65,19 +65,33 @@ class Follow_Line(Behavior, Reflectance_sensors):
     def __init__(self):
         super(Follow_Line, self).__init__(bbcon, 1)
         self.sensob = Reflectance_sensors()
+        self.active_flag = True
 
     def sense_and_act(self):
         if self.active_flag == True:
-            val = self.sensob.get_value()
-            
+            reflekt = self.sensob.get_value()
+            degrees = {0:32, 1:16, 2:0, 3:0, 4:16, 5:32}
+            grader = 0
+            maxval = 0  # maximum value
+            index = 2  # index of maxval
+            for i in reflekt:
+                reflekt[i] = 1-reflekt[i]
+                grader += (degrees[i]*reflekt[i])
+                if i != 2 and i != 3 and reflekt[i] > maxval:
+                    maxval = reflekt[i]
+                    index = i
+            direction = 'R' if index > 3 else 'L'
 
     def consider_activation(self):
          if
             self.active_flag = True
+             #skru på refleks sensor
 
     def consider_deactivation(self):
         if
             self.active_flag = False
+            #skru av refleks sensor
+
 
 
 class Find_colored_object(Behavior, FindObject):
@@ -85,6 +99,18 @@ class Find_colored_object(Behavior, FindObject):
     def __init__(self):
         super(Find_colored_object, self).__init__(bbcon, 1)
         self.sensob = FindObject()
+        self.active_flag = False
 
     def sense_and_act(self):
         return self.sensob.recomendation
+
+    def consider_deactivation(self):
+
+        if self.sensob.get_value
+            self.active_flag = False
+            #skru av kamera
+
+    def consider_activation(self):
+         if
+            self.active_flag = True
+            #skru på Kamera
