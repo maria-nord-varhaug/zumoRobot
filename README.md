@@ -1,11 +1,3 @@
 # zumoRobot
-does things with camera and stuff
 
-maria
-
-
-hallo
-=======
-heeeeey there
-
- master
+Programmert zumorobot til å utføre noen oppgaver
