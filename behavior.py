@@ -71,7 +71,7 @@ class FollowLine(Behavior):
         self.sensob = reflectancesensob
         self.active_flag = True
         self.reflectvalues = None
-        self.weight =
+        self.weight = 0.5
 
     def update(self):
         self.reflectvalues = self.sensob.update()
@@ -111,7 +111,7 @@ class FindColoredObject(Behavior):
         self.sensob = camerasensob
         self.active_flag = False
         self.array = None
-        self.weight =
+        self.weight = 1
 
     def update(self):
         self.array = self.sensob.update()
