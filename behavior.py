@@ -157,7 +157,7 @@ class FindColoredObject(Behavior):
                     index = i
             if maxval < threshold:
                 self.motor_recommendations = ('L', 60)
-                self.match_degree = 0
+                self.match_degree = 1
             else:
                 direction = 'R' if index > 3 else 'L'
                 degree = {0: 32, 1: 16, 2: 8, 3: 0, 4: 0, 5: 8, 6: 16, 7: 32}
