@@ -17,6 +17,8 @@ class Motob():
         self.operationalize()  # utfører motor recommendation
 
     def grader_til_duration(self, grader):
+        if grader < 0.01:
+            return 0
         return -0.0000786445*grader*grader + 0.0155473*grader - 0.0212085  # ish ok
 
     def operationalize(self):  # set__value([l,r],duration)
