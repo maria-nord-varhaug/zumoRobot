@@ -111,8 +111,9 @@ class ReflectanceSensors():
 
     def update(self):
         self.compute_value()
+        for val in self.value:  # format values
+            val = float("{0:.2f}".format(val))
         return self.value
-
 
     def compute_value(self):
         self.recharge_capacitors()
