@@ -91,7 +91,7 @@ class Motors():
         if not dur is None:
             self.persist(dur)  # kjører litt frem
         else:
-            sleep(0.05)
+            sleep(1)
 
     # These are lower-level routines that translate speeds and directions into write commands to the motor output pins.
 

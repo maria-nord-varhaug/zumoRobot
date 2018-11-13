@@ -17,7 +17,7 @@ def main():
 
      # sensorer og sensob
     ult_sensor = Ultrasonic()
-    ref_sensor = ReflectanceSensors(auto_calibrate=True,)
+    ref_sensor = ReflectanceSensors(auto_calibrate=False)
     reflectance_sensob = ReflectanceSensob(ref_sensor)
     ultrasonic_sensob = UltrasonicSensob(ult_sensor)
     camera_sensob = CameraSensob(None, color=2)
@@ -27,8 +27,8 @@ def main():
     follow_line = FollowLine(bbcon, reflectance_sensob)
     find_object = FindColoredObject(bbcon, camera_sensob)
 
-    #bbcon.add_behavior(dont_crash)
-    bbcon.add_behavior(follow_line)
+    bbcon.add_behavior(dont_crash)
+    #bbcon.add_behavior(follow_line)
     #bbcon.add_behavior(find_object)
     try:
         ZumoButton().wait_for_press()

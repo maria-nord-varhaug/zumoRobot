@@ -9,7 +9,7 @@ class Arbitrator():
         self.bbcon = bbcon  # tar inn bbcon
 
     def find_optimal_behavior(self):
-        largest_weight = 0
+        largest_weight = -1
         behavior = None  # a behavior object
         for i in range(0, len(self.bbcon.active_behaviors)):                 # for hver behavior i listen i bbcon
             if self.bbcon.active_behaviors[i].weight >= largest_weight:     # sammenlign weights
