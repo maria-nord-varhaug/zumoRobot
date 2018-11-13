@@ -105,6 +105,8 @@ class FollowLine(Behavior):
                 self.match_degree = 0
             else:
                 direction = 'R' if index > 3 else 'L'
+                if degrees[index] == 0:
+                    self.motor_recommendations = ('F',)
                 self.motor_recommendations = (direction, degrees[index])
                 self.match_degree = 1
 
@@ -153,10 +155,9 @@ class FindColoredObject(Behavior):
             else:
                 direction = 'R' if index > 3 else 'L'
                 degree = {0: 32, 1: 16, 2: 8, 3: 0, 4: 0, 5: 8, 6: 16, 7: 32}
-                if degree == 0:
-                    self.motor_recommendations = ('F')
-                else:
-                    self.motor_recommendations = (direction, degree[index])
+                self.motor_recommendations = (direction, degree[index])
+                if degree[index] == 0:
+                    self.motor_recommendations = ('F',)
                 self.match_degree = 1
 
     # Setter self.active_flag = False, kaller metoder i bbcon for å skru av/på kamera/refleksjonssensor
