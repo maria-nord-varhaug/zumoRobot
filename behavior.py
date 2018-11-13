@@ -108,7 +108,7 @@ class FollowLine(Behavior):
                     maxval = self.reflectvalues[i]
                     index = i
             if maxval < threshold:
-                self.motor_recommendations = ('L, 45')
+                self.motor_recommendations = ('L', 45)
                 self.match_degree = 0
             else:
                 direction = 'R' if index > 3 else 'L'
@@ -157,7 +157,7 @@ class FindColoredObject(Behavior):
                     maxval = self.array[i]
                     index = i
             if maxval < threshold:
-                self.motor_recommendations = ('L, 60')
+                self.motor_recommendations = ('L', 60)
                 self.match_degree = 0
             else:
                 direction = 'R' if index > 3 else 'L'
