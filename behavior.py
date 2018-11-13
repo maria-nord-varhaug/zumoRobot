@@ -47,6 +47,10 @@ class DontCrash(Behavior):
         self.sense_and_act()
         self.weight = self.priority * self.match_degree
 
+        print('Update DontCrash:')
+        print('Distanse:', self.dist)
+        print('Recomendation:', self.motor_recommendations, '\n')
+
     #Setter self.active_flag = False, kaller metoder i bbcon for å skru av/på kamera/refleksjonssensor
     def consider_deactivation(self):
         pass
