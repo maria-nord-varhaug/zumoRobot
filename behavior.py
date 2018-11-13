@@ -62,15 +62,15 @@ class DontCrash(Behavior):
     # legger inn motor recommendations og gir self.match_degree en variabel
     def sense_and_act(self):
         if self.active_flag:
-            if self.dist > 20:                          #hvis distansen er større enn 20 cm er metdoen urelevant
+            if self.dist > 5:                          #hvis distansen er større enn 20 cm er metdoen urelevant
                 self.match_degree = 0
                 self.motor_recommendations = ('F',)
-            elif self.dist <= 5:                        #metode veldig relevant
+            else:                        #metode veldig relevant
                 self.match_degree = 1
-                self.motor_recommendations = ('R', 180)
-            else:                                       #metode middels relevant
-                self.match_degree = 1-((self.dist-5)/20)
-                self.motor_recommendations = ('R', 180)
+                self.motor_recommendations = ('B',)
+            #else:                                       #metode middels relevant
+            #    self.match_degree = 1-((self.dist-5)/20)
+            #    self.motor_recommendations = ('R', 180)
 
     # kaller sensobs reset metode
     def reset_sensob(self):

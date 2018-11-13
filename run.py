@@ -28,8 +28,8 @@ def main():
     find_object = FindColoredObject(bbcon, camera_sensob)
 
     bbcon.add_behavior(dont_crash)
-    #bbcon.add_behavior(follow_line)
-    #bbcon.add_behavior(find_object)
+    bbcon.add_behavior(follow_line)
+    bbcon.add_behavior(find_object)
     try:
         ZumoButton().wait_for_press()
         while not bbcon.object_found:  # Kjører helt til vi finner objektet
