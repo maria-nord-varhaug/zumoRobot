@@ -146,6 +146,10 @@ class FindColoredObject(Behavior):
         self.sense_and_act()
         self.weight = self.priority * self.match_degree
 
+        print('Update FindCameraObject:')
+        print('Values:', self.array)
+        print('Recomendation:', self.motor_recommendations, '\n')
+
     # legger inn motor recommendations og gir self.match_degree en variabel
     def sense_and_act(self, threshold=0.05):
         if self.active_flag:
