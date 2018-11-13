@@ -54,9 +54,6 @@ class Bbcon():
         if isinstance(action_tuple[2], DontCrash):
             self.camera_on = True
             self.follow_line = False
-        else:
-            self.camera_on = False
-            self.follow_line = True
         if isinstance(action_tuple[2], FindColoredObject) and action_tuple[0][1] == 0:
             self.object_found = True
         for behavior in self.behaviors:

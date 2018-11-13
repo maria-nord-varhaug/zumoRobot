@@ -20,7 +20,7 @@ def main():
     ref_sensor = ReflectanceSensors(auto_calibrate=False)
     reflectance_sensob = ReflectanceSensob(ref_sensor)
     ultrasonic_sensob = UltrasonicSensob(ult_sensor)
-    camera_sensob = CameraSensob(None, color=2)
+    camera_sensob = CameraSensob(None, color=0)
 
     #behaviors
     dont_crash = DontCrash(bbcon, ultrasonic_sensob)
