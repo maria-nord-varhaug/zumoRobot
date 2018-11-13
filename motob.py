@@ -31,4 +31,4 @@ class Motob():
         elif instruks == 'B':  # eneste andre kommando er forwards, og den vil bare... ja kjøre
             self.motor.set_value([-self.default_motorverdi, -self.default_motorverdi])  # dur = sleep, continue driving
         else:
-            self.motor.set_value([self.default_motorverdi, self.default_motorverdi])
+            self.motor.set_value([self.default_motorverdi, self.default_motorverdi],0.1)
