@@ -26,6 +26,8 @@ class ReflectanceSensors():
         print(self.min_val)
 
 
+#[118466, 301952, 733886, 724350, 203411, 551736]
+#[93692, 183893, 250079, 251553, 169230, 153896]
     def setup(self):
         # Initialize class variables
         self.max_val = [-1, -1, -1, -1, -1, -1]
