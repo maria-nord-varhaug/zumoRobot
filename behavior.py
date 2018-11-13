@@ -101,8 +101,8 @@ class FollowLine(Behavior):
         if self.active_flag:
             degrees = {0:20, 1:7, 2:0, 3:0, 4:7, 5:20}
             minval = 1  # minimum value
-            index = 0  # index of maxval
-            for i in range(len(self.reflectvalues)):  # find maxval and index of maxval in array
+            index = 0  # index of minval
+            for i in range(len(self.reflectvalues)):  # find minval and index of maxval in array
                 if self.reflectvalues[i] < minval:
                     minval = self.reflectvalues[i]
                     index = i
