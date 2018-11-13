@@ -97,17 +97,16 @@ class FollowLine(Behavior):
         print('Recomendation:', self.motor_recommendations, '\n')
 
     # legger inn motor recommendations og gir self.match_degree en variabel
-    def sense_and_act(self, threshold = 0.05):
+    def sense_and_act(self, threshold = 0.95):
         if self.active_flag:
             degrees = {0:20, 1:7, 2:0, 3:0, 4:7, 5:20}
-            maxval = 0  # maximum value
-            index = 0  # index of maxval
-            for i in range(len(self.reflectvalues)):  # find maxval and index of maxval in array
-                self.reflectvalues[i] = 1 - self.reflectvalues[i]
-                if self.reflectvalues[i] > maxval:
-                    maxval = self.reflectvalues[i]
+            minval = 1  # minimum value
+            index = 0  # index of minval
+            for i in range(len(self.reflectvalues)):  # find minval and index of maxval in array
+                if self.reflectvalues[i] < minval:
+                    minval = self.reflectvalues[i]
                     index = i
-            if maxval < threshold:
+            if minval > threshold:
                 self.motor_recommendations = ('L', 45)
                 self.match_degree = 0
             else:
