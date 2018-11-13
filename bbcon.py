@@ -49,6 +49,7 @@ class Bbcon():
         for behavior in self.active_behaviors: # updates active behaviors and their sensobs
             behavior.update()
         action_tuple = self.arbitrator.choose_action() # (motor_rec, winning_behavior.halt_request, winning_behavior)
+        print('Action tuple:', action_tuple)
         self.motob.update(action_tuple[:2])
         if isinstance(action_tuple[2], DontCrash):
             self.camera_on = True
