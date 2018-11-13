@@ -28,6 +28,10 @@ class Behavior(): #abstract class
     def sense_and_act(self):              #legger inn motor recommendations og gir self.match_degree en variabel
         pass
 
+    @abstractmethod
+    def reset_sensob(self):
+        pass
+
 
 class DontCrash(Behavior):
 
@@ -119,7 +123,6 @@ class FollowLine(Behavior):
         self.sensob.reset()
 
 
-
 class FindColoredObject(Behavior):
     
     def __init__(self, bbcon, camerasensob):
@@ -136,7 +139,7 @@ class FindColoredObject(Behavior):
         self.weight = self.priority * self.match_degree
 
     # legger inn motor recommendations og gir self.match_degree en variabel
-    def sense_and_act(self, threshold = 0.05):
+    def sense_and_act(self, threshold=0.05):
         if self.active_flag:
             maxval = 0  # maximum value
             index = 0  # index of maxval
