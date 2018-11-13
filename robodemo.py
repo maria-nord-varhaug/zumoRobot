@@ -8,7 +8,7 @@ from camera import Camera
 from motors import Motors
 from ultrasonic import Ultrasonic
 from zumo_button import ZumoButton
-from sensobs import UltrasonicSensob, ReflectanceSensob
+from sensobs import UltrasonicSensob, ReflectanceSensob, CameraSensob
 
 
 ## BE SURE TO RUN THESE DEMOS ON THE FLOOR or to have plenty of people guarding
@@ -116,3 +116,10 @@ def underside():
         print(reflectance_sensob.update())
         sleep(0.1)
 
+
+def camera():
+    camera_sensob = CameraSensob(None, color=0)
+    for i in range(0, 15):
+        print('\nPicture:')
+        print(camera_sensob.update())
+        sleep(0.5)
