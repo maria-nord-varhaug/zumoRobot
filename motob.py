@@ -23,10 +23,9 @@ class Motob():
 
     def operationalize(self):  # set__value([l,r],duration)
         instruks = self.value[0]
-        grader = self.value[1]
         if instruks == 'L':
-            self.motor.set_value([-self.default_motorverdi, self.default_motorverdi], self.grader_til_duration(grader))
+            self.motor.set_value([-self.default_motorverdi, self.default_motorverdi], self.grader_til_duration(self.value[1]))
         elif instruks == 'R':
-            self.motor.set_value([self.default_motorverdi, -self.default_motorverdi], self.grader_til_duration(grader))
+            self.motor.set_value([self.default_motorverdi, -self.default_motorverdi], self.grader_til_duration(self.value[1]))
         else:  # eneste andre kommando er forwards, og den vil bare... ja kjøre
             self.motor.set_value([self.default_motorverdi, self.default_motorverdi])  # dur = sleep, continue driving
