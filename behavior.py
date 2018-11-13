@@ -156,6 +156,8 @@ class FindColoredObject(Behavior):
                 direction = 'R' if index > 3 else 'L'
                 degree = {0: 32, 1: 16, 2: 8, 3: 0, 4: 0, 5: 8, 6: 16, 7: 32}
                 self.motor_recommendations = (direction, degree[index])
+                if degree[index] == 0:
+                    self.motor_recommendations = ('F',)
                 self.match_degree = 1
 
     # Setter self.active_flag = False, kaller metoder i bbcon for å skru av/på kamera/refleksjonssensor
