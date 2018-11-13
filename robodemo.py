@@ -8,6 +8,7 @@ from camera import Camera
 from motors import Motors
 from ultrasonic import Ultrasonic
 from zumo_button import ZumoButton
+from sensobs import UltrasonicSensob, ReflectanceSensob
 
 
 ## BE SURE TO RUN THESE DEMOS ON THE FLOOR or to have plenty of people guarding
@@ -101,9 +102,17 @@ def sving(speed,dur):
     motors.set_value((speed, -speed), dur)
     motors.set_value((speed / 2, speed / 2), 1)
 
-def avstand(avstandsSensob):
-    assert isinstance(avstandsSensob,Ultrasonic)
+def avstand():
+    ult_sensor = Ultrasonic()
+    ultrasonic_sensob = UltrasonicSensob(ult_sensor)
     for i in range(0,100):
-        print(avstandsSensob.update())
+        print(ultrasonic_sensob.update())
+        sleep(0.1)
+
+def underside():
+    ref_sensor = ReflectanceSensors(auto_calibrate=True)
+    reflectance_sensob = ReflectanceSensob(ref_sensor)
+    for i in range(0,100):
+        print(reflectance_sensob.update())
         sleep(0.1)
 
