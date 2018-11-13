@@ -105,6 +105,8 @@ class FollowLine(Behavior):
                 self.match_degree = 0
             else:
                 direction = 'R' if index > 3 else 'L'
+                if degrees[index] == 0:
+                    self.motor_recommendations = ('F',)
                 self.motor_recommendations = (direction, degrees[index])
                 self.match_degree = 1
 
