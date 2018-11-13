@@ -101,3 +101,9 @@ def sving(speed,dur):
     motors.set_value((speed, -speed), dur)
     motors.set_value((speed / 2, speed / 2), 1)
 
+def avstand(avstandsSensob):
+    assert isinstance(avstandsSensob,Ultrasonic)
+    for i in range(0,100):
+        print(avstandsSensob.update())
+        sleep(0.1)
+
