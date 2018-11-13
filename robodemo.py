@@ -109,13 +109,12 @@ def avstand():
         print(ultrasonic_sensob.update())
         sleep(0.1)
 
-def underside():
-    ref_sensor = ReflectanceSensors(auto_calibrate=False, min_reading=251553, max_reading=724350)
+def underside(auto_C=False):
+    ref_sensor = ReflectanceSensors(auto_calibrate=auto_C, min_reading=251553, max_reading=724350)
     reflectance_sensob = ReflectanceSensob(ref_sensor)
     for i in range(0,50):
         print(reflectance_sensob.update())
         sleep(0.1)
-
 
 def camera():
     camera_sensob = CameraSensob(None, color=0)
