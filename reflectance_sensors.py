@@ -111,8 +111,8 @@ class ReflectanceSensors():
 
     def update(self):
         self.compute_value()
-        for val in self.value:  # format values
-            val = float("{0:.2f}".format(val))
+        for i in range(len(self.value)):  # format values
+            self.value[i] = float("{0:.2f}".format(self.value[i]))
         return self.value
 
     def compute_value(self):
