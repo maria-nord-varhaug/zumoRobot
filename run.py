@@ -15,7 +15,7 @@ def main():
     arbitrator = Arbitrator(bbcon)
     bbcon.set_arbitrator(arbitrator)
 
-    #sensorer og sensob
+     # sensorer og sensob
     ult_sensor = Ultrasonic()
     ref_sensor = ReflectanceSensors(auto_calibrate=False)
     reflectance_sensob = ReflectanceSensob(ref_sensor)
