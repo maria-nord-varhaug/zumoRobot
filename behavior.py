@@ -11,7 +11,6 @@ class Behavior(): #abstract class
         self.match_degree = 0                     #hvor viktig oppførselen er akkurat nå, regnes ut i metoden fra sensor verdier
         self.weight = 0                           #self.priority * self.match_degree #sendes til Arbitrator, som indikere hvor viktig metoden er totaltsett
 
-
     @abstractmethod
     def consider_deactivation(self):      #Setter self.active_flag = False, kaller metoder i bbcon for å skru av/på kamera/refleksjonssensor
         pass
@@ -109,9 +108,9 @@ class FollowLine(Behavior):
                 self.match_degree = 0
             else:
                 direction = 'R' if index > 3 else 'L'
+                self.motor_recommendations = (direction, degrees[index])
                 if degrees[index] == 0:
                     self.motor_recommendations = ('F',)
-                self.motor_recommendations = (direction, degrees[index])
                 self.match_degree = 1
 
     # Setter self.active_flag = True, kaller metoder i bbcon for å skru av/på kamera/refleksjonssensor

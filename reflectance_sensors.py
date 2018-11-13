@@ -18,16 +18,15 @@ class ReflectanceSensors():
                 sleep(1)
         else:
             for i in range(len(self.max_val)):
-                self.max_val[i] = max_reading
-                self.min_val[i] = min_reading
+                self.max_val[i] = 724350
+                self.min_val[i] = 251553
+            #self.max_val = [301952, 301952, 733886, 724350, 301952, 301952]
+            #self.min_val = [93692, 183893, 250079, 251553, 169230, 153896]
 
         print("Calibration results")
         print(self.max_val)
         print(self.min_val)
 
-
-#[118466, 301952, 733886, 724350, 203411, 551736]
-#[93692, 183893, 250079, 251553, 169230, 153896]
     def setup(self):
         # Initialize class variables
         self.max_val = [-1, -1, -1, -1, -1, -1]

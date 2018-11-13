@@ -17,14 +17,15 @@ class Motob():
         self.operationalize()  # utfører motor recommendation
 
     def grader_til_duration(self, grader):
+        if grader < 0.01:
+            return 0
         return -0.0000786445*grader*grader + 0.0155473*grader - 0.0212085  # ish ok
 
     def operationalize(self):  # set__value([l,r],duration)
         instruks = self.value[0]
-        grader = self.value[1]
         if instruks == 'L':
-            self.motor.set_value([-self.default_motorverdi, self.default_motorverdi], self.grader_til_duration(grader))
+            self.motor.set_value([-self.default_motorverdi, self.default_motorverdi], self.grader_til_duration(self.value[1]))
         elif instruks == 'R':
-            self.motor.set_value([self.default_motorverdi, -self.default_motorverdi], self.grader_til_duration(grader))
+            self.motor.set_value([self.default_motorverdi, -self.default_motorverdi], self.grader_til_duration(self.value[1]))
         else:  # eneste andre kommando er forwards, og den vil bare... ja kjøre
             self.motor.set_value([self.default_motorverdi, self.default_motorverdi])  # dur = sleep, continue driving
