@@ -7,7 +7,7 @@ class Motob():
     def __init__(self):
         self.motor = Motors()           # Lager et Motorobjekt?
         self.value = ()                 # Nyligste motor_recommendation sendt hit, ('L',30)
-        self.default_motorverdi = 0.5
+        self.default_motorverdi = 0.3
 
     def update(self, tuppel_motorrec_halt_request):
         if tuppel_motorrec_halt_request[1]:    # hvis halt request er true

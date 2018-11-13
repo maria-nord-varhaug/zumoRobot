@@ -9,6 +9,7 @@ from motors import Motors
 from ultrasonic import Ultrasonic
 from zumo_button import ZumoButton
 from sensobs import UltrasonicSensob, ReflectanceSensob, CameraSensob
+import RPi.GPIO as GPIO
 
 
 ## BE SURE TO RUN THESE DEMOS ON THE FLOOR or to have plenty of people guarding
@@ -109,12 +110,17 @@ def avstand():
         print(ultrasonic_sensob.update())
         sleep(0.1)
 
-def underside(auto_C=False):
-    ref_sensor = ReflectanceSensors(auto_calibrate=auto_C, min_reading=251553, max_reading=724350)
-    reflectance_sensob = ReflectanceSensob(ref_sensor)
-    for i in range(0,50):
-        print(reflectance_sensob.update())
-        sleep(0.1)
+def underside(auto_C=False,max=100000,min=0):
+    try:
+        ref_sensor = ReflectanceSensors(auto_calibrate=auto_C,min_reading=min,max_reading=max)
+        reflectance_sensob = ReflectanceSensob(ref_sensor)
+        while True:
+            print(reflectance_sensob.update())
+            sleep(0.1)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        GPIO.cleanup()
 
 def camera():
     camera_sensob = CameraSensob(None, color=0)

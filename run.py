@@ -17,7 +17,7 @@ def main():
 
      # sensorer og sensob
     ult_sensor = Ultrasonic()
-    ref_sensor = ReflectanceSensors(auto_calibrate=False)
+    ref_sensor = ReflectanceSensors(auto_calibrate=True,)
     reflectance_sensob = ReflectanceSensob(ref_sensor)
     ultrasonic_sensob = UltrasonicSensob(ult_sensor)
     camera_sensob = CameraSensob(None, color=2)
@@ -35,7 +35,7 @@ def main():
         while not bbcon.object_found:  # Kjører helt til vi finner objektet
             bbcon.run_one_timestep()
     except KeyboardInterrupt:
-        pass
+        motob.motor.stop()
     finally:
         GPIO.cleanup()
 
