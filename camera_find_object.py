@@ -12,7 +12,7 @@ class FindObject():  # DO NOT USE!
         self.xmax = self.image.size[0]  # width of image
         self.ymax = self.image.size[1]  # height of image
         self.array = None  # color distribution array
-        self.zumo_button = ZumoButton()
+        #self.zumo_button = ZumoButton()
         self.camera = Camera()
 
     def how_much_color(self, start, end):  # return a float [0-1] of how much of either R,G or B color
@@ -74,13 +74,13 @@ class FindObject():  # DO NOT USE!
 def take_picture():
     cfo = FindObject(color=0, filename='image.png')
     for i in range(10):
-        cfo.zumo_button.wait_for_press()
+        #cfo.zumo_button.wait_for_press()
         image = cfo.camera.update()
         image.save('image{}.jpg'.format(i))
 
 
 
-fo = FindObject(color=0, filename='image1.png')
+fo = FindObject(color=0, filename='image.png')
 fo.image = fo.keep_one_color(thresh=0.55)
 fo.how_much_color_array()
 print(fo.recomendation())
