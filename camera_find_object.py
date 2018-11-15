@@ -76,7 +76,7 @@ def take_picture():
     for i in range(10):
         #cfo.zumo_button.wait_for_press()
         image = cfo.camera.update()
-        image.save('image{}.jpg'.format(i))
+        image.save('image{}.png'.format(i))
 
 
 
