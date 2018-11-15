@@ -125,6 +125,9 @@ def underside(auto_C=False,max=100000,min=0):
 def camera():
     camera_sensob = CameraSensob(None, color=0)
     for i in range(0, 15):
+        ZumoButton().wait_for_press()
         print('\nPicture:')
-        print(camera_sensob.update())
-        sleep(0.5)
+        image = camera_sensob.update()
+        image.save('image{}.jpg'.format(i))
+
+

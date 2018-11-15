@@ -1,6 +1,6 @@
 from camera import Camera
 from PIL import Image
-from zumo_button import ZumoButton
+#from zumo_button import ZumoButton
 
 
 class FindObject():  # DO NOT USE!
@@ -78,10 +78,11 @@ def take_picture():
         image = cfo.camera.update()
         image.save('image{}.jpg'.format(i))
 
-'''
-fo = FindObject(color=0, filename='image.png')
+
+
+fo = FindObject(color=0, filename='image1.png')
 fo.image = fo.keep_one_color(thresh=0.55)
 fo.how_much_color_array()
 print(fo.recomendation())
 fo.image.show()
-'''
+
