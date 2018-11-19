@@ -81,7 +81,7 @@ def take_picture():
 
 
 fo = FindObject(color=0, filename='image.png')
-fo.image = fo.keep_one_color(thresh=0.55)
+fo.image = fo.keep_one_color(thresh=0.60)
 fo.how_much_color_array()
 print(fo.recomendation())
 fo.image.show()

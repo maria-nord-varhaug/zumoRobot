@@ -70,7 +70,7 @@ class CameraSensob(Sensob):
                 im2.putpixel((i, j), func(im2.getpixel((i, j))))
         return im2
 
-    def keep_one_color(self, thresh=0.55):  # change one color to max (255, 0, 0) and the rest to (0,0,0)
+    def keep_one_color(self, thresh=0.60):  # change one color to max (255, 0, 0) and the rest to (0,0,0)
         def wta(p):  # winner takes all, p is RGB-tuple
             s = sum(p)
             w = max(p)
